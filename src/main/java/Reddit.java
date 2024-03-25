@@ -110,4 +110,30 @@ public class Reddit {
     public static void newPost(Post post) {
         postList.add(post);
     }
+    public void viewComment(UUID commentUUID) {
+        Comment comment = getCommentViaUUID(commentUUID);
+        System.out.println("\t\t" + getAccountViaUUID(comment.getUser()).getUserName() + ":");
+        System.out.println("\t\t\t" + comment.getText());
+    }
+    public void viewPost(UUID postUUID) {
+        Post post = getPostViaUUID(postUUID);
+        System.out.print(getSubRedditViaUUID(post.getSubReddit()).getSubRedditName() + ", ");
+        System.out.print(getAccountViaUUID(post.getUser()).getUserName() + " -");
+        System.out.println(post.getTitle() + "- :");
+        System.out.println("\t" + post.getBody());
+        for (int i = 0; i < post.getCommentList().size(); i++) {
+            viewComment(post.getCommentList().get(i));
+        }
+    }
+    public void timeLine(UUID userUUID) {
+        Account user = getAccountViaUUID(userUUID);
+        for (int i = postList.size() - 1; i >= 0; i--) {
+            for (int j = 0; j < user.getPostList().size(); j++) {
+                if (postList.get(i).getPostUUID().equals(user.getPostList().get(j))) {
+                    viewPost(postList.get(i).getPostUUID());
+                    break;
+                }
+            }
+        }
+    }
 }

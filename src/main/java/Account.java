@@ -44,7 +44,8 @@ public class Account {
             System.out.println("userName changed.");
         }
     }
-    public void timeLine() {
 
+    public List<UUID> getPostList() {
+        return postList;
     }
 }
