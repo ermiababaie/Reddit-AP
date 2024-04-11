@@ -21,6 +21,8 @@ public class Account {
         this.userName = userName;
         this.accountUUID = UUID.randomUUID();
         this.commentList = new ArrayList<>();
+        this.subRedditList = new ArrayList<>();
+        this.postList = new ArrayList<>();
         votes = new HashMap<UUID,Integer>();
         UpVOtes = new ArrayList<>();
     }
@@ -63,8 +65,7 @@ public class Account {
     }
 
     public void setPassWord(String passWord) {
-
-        this.passWord = passWord;
+        this.passWord = Reddit.hash(passWord);
     }
 
     public void setUserName(String userName) {
@@ -72,7 +73,6 @@ public class Account {
         this.userName = userName;
     }
     public void addSubReddit(UUID subRedditUUID) {
-
         subRedditList.add(subRedditUUID);
     }
     public void addComment(UUID commentUUID) {
@@ -104,7 +104,7 @@ public class Account {
         }
     }
     public void vote(UUID uuid, int karma) {
-        if (karma == 0) {
+        if (karma == 1) {
             if (getVotes(uuid) != +1) {
                 UpVOtes.add(uuid);
             }
@@ -143,5 +143,9 @@ public class Account {
     }
     public void changePassWord(String passWord) {
         this.passWord = passWord;
+    }
+
+    public String getPassWord() {
+        return passWord;
     }
 }

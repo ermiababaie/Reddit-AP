@@ -21,15 +21,19 @@ public class Reddit {
             pow2 = (pow2 * mabna2) % mod2;
 
         }
-        return String.valueOf(ans) + '#' + String.valueOf(ans2);
+        return String.valueOf(ans) + "#" + String.valueOf(ans2);
     }
 
     public static int validEmail(String email) {
-        String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}";
+//        String regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}";
+        String regex = "[a-zA-Z]+@[a-zA-Z]+\\.[a-zA-Z]{2,4}";
+        String regex2 = "[a-zA-Z]+@[a-zA-Z]+\\.[a-zA-Z]{5,}";
         //need to change
         Pattern pattern = Pattern.compile(regex);
+        Pattern pattern2 = Pattern.compile(regex2);
         Matcher matcher = pattern.matcher(email);
-        if (!matcher.find()) {
+        Matcher matcher2 = pattern2.matcher(email);
+        if (!matcher.find() || matcher2.find()) {
             return 0;
         }
         boolean find = false;
@@ -44,16 +48,19 @@ public class Reddit {
         }
     }
     public static int validUserName(String userName) {
-        String regex = "[a-zA-Z_]+[0-9]";
+        String regex = "[a-zA-Z]+";
+        String regex2 = "[0-9]+[a-zA-Z]+";
         //need to change
         Pattern pattern = Pattern.compile(regex);
+        Pattern pattern2 = Pattern.compile(regex2);
         Matcher matcher = pattern.matcher(userName);
-        if (!matcher.find()) {
+        Matcher matcher2 = pattern2.matcher(userName);
+        if (!matcher.find() || matcher2.find()) {
             return 0;
         }
         boolean find = false;
         for (int i = 0; i < accountList.size(); i++) {
-            find |= accountList.get(i).getUserName().equals(userName);
+            find |= accountList.get(i).getUserName().equals("u/" + userName);
         }
         if (find) {
             return 1;
@@ -63,11 +70,14 @@ public class Reddit {
         }
     }
     public static int validSubReddit(String SubReditName) {
-        String regex = "[a-zA-Z_]+[0-9]";
+        String regex = "[a-zA-Z]+";
+        String regex2 = "[0-9]+[a-zA-Z]+";
         //need to change
         Pattern pattern = Pattern.compile(regex);
+        Pattern pattern2 = Pattern.compile(regex2);
         Matcher matcher = pattern.matcher(SubReditName);
-        if (!matcher.find()) {
+        Matcher matcher2 = pattern2.matcher(SubReditName);
+        if (!matcher.find() || matcher2.find()) {
             return 0;
         }
         boolean find = false;
@@ -82,7 +92,7 @@ public class Reddit {
         }
     }
     public static int validTag(String tag) {
-        String regex = "[a-zA-Z_]+[0-9]";
+        String regex = "[a-zA-Z]+";
         //need to change
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(tag);
@@ -139,9 +149,10 @@ public class Reddit {
     public static void newAccount() {
         Scanner in = new Scanner(System.in);
         Account account = new Account("", "", "");
+        String userEmail = "";
         while (true) {
             System.out.print("enter your email: ");
-            String userEmail = in.next();
+            userEmail = in.next();
             if (userEmail.equals("cancel")) {
                 break;
             }
@@ -152,28 +163,30 @@ public class Reddit {
                 System.out.println("this email already exist");
             }
             else {
-                System.out.println("enter PassWord: ");
-                String passWord = in.next();
-                while (true) {
-                    System.out.println("enter userName: ");
-                    String UserName = in.next();
-                    if (UserName.equals("cancel")) {
-                        break;
-                    }
-                    else if (validUserName(UserName) == 0) {
-                        System.out.println("this is not valid UserName!");
-                    }
-                    else if (validEmail(userEmail) == 1) {
-                        System.out.println("this UserName already exist");
-                    }
-                    else {
-                        account.setPassWord(passWord);
-                        account.setEmail(userEmail);
-                        account.setUserName(UserName);
-                        break;
-                    }
-                }
                 break;
+            }
+        }
+        if (!userEmail.equals("cancel")) {
+            System.out.println("enter PassWord: ");
+            String passWord = in.next();
+            while (true) {
+                System.out.println("enter userName: ");
+                String UserName = in.next();
+                if (UserName.equals("cancel")) {
+                    break;
+                }
+                else if (validUserName(UserName) == 0) {
+                    System.out.println("this is not valid UserName!");
+                }
+                else if (validEmail(userEmail) == 1) {
+                    System.out.println("this UserName already exist");
+                }
+                else {
+                    account.setPassWord(passWord);
+                    account.setEmail(userEmail);
+                    account.setUserName(UserName);
+                    break;
+                }
             }
         }
         if (!account.getEmail().equals("")) {
@@ -182,6 +195,10 @@ public class Reddit {
     }
     public static void newComment(UUID accountUUID) {
         Scanner in = new Scanner(System.in);
+        Scanner in2 = new Scanner(System.in);
+        Scanner in3 = new Scanner(System.in);
+        Scanner in4 = new Scanner(System.in);
+        Scanner in5 = new Scanner(System.in);
         Account account = getAccountViaUUID(accountUUID);
         System.out.println("enter post number : ");
         int postNumber = in.nextInt();
@@ -189,16 +206,15 @@ public class Reddit {
             while (postNumber > Post.getPostCounter()) {
                 System.out.println("enter valid number.");
                 System.out.println("enter post number : ");
-                postNumber = in.nextInt();
+                postNumber = in2.nextInt();
                 if (postNumber == 0) {
                     break;
                 }
             }
             if (postNumber != 0) {
+                System.out.println("enter text of comment: ");
                 String Text = "";
-                while (in.hasNext()) {
-                    Text = Text + " " + in.next();
-                }
+                Text = in3.nextLine();
                 Post post = getPostViaNumber(postNumber);
                 Comment comment = new Comment(accountUUID, Text, post.getPostUUID());
                 for (int i = 0; i < postList.size(); i++) {
@@ -218,6 +234,10 @@ public class Reddit {
     }
     public static void newPost(UUID accountUUID) {
         Scanner in = new Scanner(System.in);
+        Scanner in2 = new Scanner(System.in);
+        Scanner in3 = new Scanner(System.in);
+        Scanner in4 = new Scanner(System.in);
+        Scanner in5 = new Scanner(System.in);
         Account account = getAccountViaUUID(accountUUID);
         System.out.println("Your subReddits: ");
         System.out.print("\t[");
@@ -243,14 +263,10 @@ public class Reddit {
             if (find) {
                 System.out.print("Enter PostTitle: ");
                 String postTitle = "";
-                while (in.hasNext()) {
-                    postTitle = postTitle + " " + in.next();
-                }
-                System.out.print("Enter PostTitle: ");
+                postTitle = in2.nextLine();
+                System.out.print("Enter PostBody: ");
                 String postBody = "";
-                while (in.hasNext()) {
-                    postBody = postBody + " " + in.next();
-                }
+                postBody = in3.nextLine();
                 UUID subRedditUUID = UUID.randomUUID();
                 for (int i = 0; i < subRedditList.size(); i++) {
                     if (subRedditList.get(i).getSubRedditName().equals(subRedditName))
@@ -258,12 +274,12 @@ public class Reddit {
                 }
                 Post post = new Post(subRedditUUID, accountUUID, postTitle, postBody);
                 System.out.print("enter Number of tags: ");
-                int tagCnt = in.nextInt();
-                System.out.println("Enter tags + enterKEY : ");
+                int tagCnt = in4.nextInt();
                 while (tagCnt >= 1) {
-                    String tag;
+                    String tag = "";
                     while (true) {
-                        tag = in.next();
+                        System.out.println("Enter tags + enterKEY : ");
+                        tag = in5.next();
                         if (validTag(tag) == 0) {
                             System.out.println("this is not valid tag");
                         }
@@ -272,6 +288,7 @@ public class Reddit {
                         }
                     }
                     post.addTag(tag);
+                    tagCnt--;
                 }
                 postList.add(post);
                 for (int i = 0; i < accountList.size(); i++) {
@@ -308,11 +325,13 @@ public class Reddit {
             }
             else {
                 SubReddit subReddit = new SubReddit(SubRedditName, accountUUID);
+                subRedditList.add(subReddit);
                 for (int i = 0; i < accountList.size(); i++) {
                     if (accountList.get(i).getAccountUUID().equals(accountUUID)) {
                         accountList.get(i).addSubReddit(subReddit.getSubRedditUUID());
                     }
                 }
+                break;
             }
         }
     }
@@ -332,7 +351,18 @@ public class Reddit {
         System.out.print(getAccountViaUUID(post.getUser()).getUserName() + " -");
         System.out.println(post.getTitle() + "- :");
         System.out.println("\t" + post.getBody());
+        System.out.print("\t\t");
+        for (int i = 0; i < post.getTags().size(); i++) {
+            if (i < post.getTags().size() - 1) {
+                System.out.print(post.getTags().get(i) + " - ");
+            }
+            else {
+                System.out.print(post.getTags().get(i));
+
+            }
+        }
         System.out.println("\t\t\t\t karma: " + post.getVote());
+        System.out.print("comments:\n\t");
         for (int i = 0; i < post.getCommentList().size(); i++) {
             viewComment(post.getCommentList().get(i));
         }
@@ -344,9 +374,23 @@ public class Reddit {
         System.out.print(getAccountViaUUID(post.getUser()).getUserName() + " -");
         System.out.println(post.getTitle() + "- :");
         System.out.println("\t" + post.getBody());
+        System.out.print("\t\t");
+        for (int i = 0; i < post.getTags().size(); i++) {
+            if (i < post.getTags().size() - 1) {
+                System.out.print(post.getTags().get(i) + " - ");
+            }
+            else {
+                System.out.print(post.getTags().get(i));
+
+            }
+        }
         System.out.println("\t\t\t\t karma: " + post.getVote());
     }
     public static void timeLine(UUID userUUID) {
+        for (int i = 0; i < 40; i++) {
+            System.out.print("-");
+        }
+        System.out.print("\n");
         Account user = getAccountViaUUID(userUUID);
         for (int i = postList.size() - 1; i >= 0; i--) {
             for (int j = 0; j < user.getPostList().size(); j++) {
@@ -369,12 +413,12 @@ public class Reddit {
             }
             else if (validEmail(userEmail) != 1 && validUserName(userEmail) != 1) {
                 account.setEmail("LOGINfaild");
-                System.out.println("this email not exist!");
+                System.out.println("this email or userName not exist!");
             }
             else {
                 Account userAccount = new Account("", "", "");
                 for (Account i : accountList) {
-                    if (i.getEmail().equals(userEmail) || i.getUserName().equals(userEmail))
+                    if (i.getEmail().equals(userEmail) || i.getUserName().equals("u/" + userEmail))
                         userAccount = i;
                 }
                 while (true) {
@@ -397,7 +441,7 @@ public class Reddit {
         }
         return account;
     }
-    public void VoteComment(UUID accountUUID) {
+    public static void VoteComment(UUID accountUUID) {
         Scanner in = new Scanner(System.in);
         Account account = getAccountViaUUID(accountUUID);
         int CommentNumber = 0;
@@ -460,65 +504,57 @@ public class Reddit {
         }
     }
 
-    public void VotePost(UUID accountUUID) {
+    public static void VotePost(UUID accountUUID) {
         Scanner in = new Scanner(System.in);
         Account account = getAccountViaUUID(accountUUID);
-        int PostNumber = 0;
+        int PostNumber = -1;
         while (true) {
             System.out.print("enter PostNumber: ");
             PostNumber = in.nextInt();
-            if (PostNumber >= 1 && PostNumber <= Post.getPostCounter()) {
+            if (PostNumber >= 0 && PostNumber <= Post.getPostCounter()) {
                 break;
             }
         }
-        Post post = postList.get(0);
-        for (int i = 0; i < postList.size(); i++) {
-            if (postList.get(i).getPostNumber() == PostNumber) {
-                post = postList.get(i);
+        if (PostNumber != 0) {
+            Post post = getPostViaNumber(PostNumber);
+            int input = 0;
+            while (input < 1 || input > 3) {
+                System.out.print("select one: 1)DownVote 2)UpVote 3)ReTractVote");
+                input = in.nextInt();
             }
-        }
-        int input = 0;
-        while (input < 1 || input > 3) {
-            System.out.print("select one: 1)DownVote 2)UpVote 3)ReTractVote");
-            input = in.nextInt();
-        }
-        if (input == 1) {
-            if (account.getVotes(post.getPostUUID()) == 0) {
-                post.DownVote();
+            if (input == 1) {
+                if (account.getVotes(post.getPostUUID()) == 0) {
+                    post.DownVote();
+                } else if (account.getVotes(post.getPostUUID()) == 1) {
+                    post.DownVote();
+                    post.DownVote();
+                }
+                account.vote(post.getPostUUID(), -1);
+            } else if (input == 2) {
+                if (account.getVotes(post.getPostUUID()) == 0) {
+                    post.UpVote();
+                } else if (account.getVotes(post.getPostUUID()) == -1) {
+                    post.UpVote();
+                    post.UpVote();
+                }
+                account.vote(post.getPostUUID(), 1);
+            } else {
+                if (account.getVotes(post.getPostUUID()) == 1) {
+                    post.DownVote();
+                } else if (account.getVotes(post.getPostUUID()) == -1) {
+                    post.UpVote();
+                }
+                account.vote(post.getPostUUID(), 0);
             }
-            else if (account.getVotes(post.getPostUUID()) == 1) {
-                post.DownVote();
-                post.DownVote();
+            for (int i = 0; i < accountList.size(); i++) {
+                if (accountList.get(i).getAccountUUID().equals(accountUUID)) {
+                    accountList.set(i, account);
+                }
             }
-            account.vote(post.getPostUUID(), -1);
-        }
-        else if (input == 2) {
-            if (account.getVotes(post.getPostUUID()) == 0) {
-                post.UpVote();
-            }
-            else if (account.getVotes(post.getPostUUID()) == -1) {
-                post.UpVote();
-                post.UpVote();
-            }
-            account.vote(post.getPostUUID(), 1);
-        }
-        else {
-            if (account.getVotes(post.getPostUUID()) == -1) {
-                post.DownVote();
-            }
-            else if (account.getVotes(post.getPostUUID()) == 1) {
-                post.UpVote();
-            }
-            account.vote(post.getPostUUID(), 0);
-        }
-        for (int i = 0; i < accountList.size(); i++) {
-            if (accountList.get(i).getAccountUUID().equals(accountUUID)) {
-                accountList.set(i, account);
-            }
-        }
-        for (int i = 0; i < postList.size(); i++) {
-            if (postList.get(i).getPostNumber() == PostNumber) {
-                postList.set(i, post);
+            for (int i = 0; i < postList.size(); i++) {
+                if (postList.get(i).getPostNumber() == PostNumber) {
+                    postList.set(i, post);
+                }
             }
         }
     }
@@ -539,7 +575,7 @@ public class Reddit {
         System.out.println("SubReddit list: ");
         System.out.print("\t");
         for (int i = 0; i < account.getSubRedditList().size(); i++) {
-            System.out.print(account.getSubRedditList().get(i) + " - ");
+            System.out.print(getSubRedditViaUUID(account.getSubRedditList().get(i)).getSubRedditName() + " - ");
         }
         System.out.print("\n");
         System.out.println("total karma: " + account.getKarma());
@@ -555,13 +591,14 @@ public class Reddit {
         System.out.print("\t");
         for (int i = 0; i < accountList.size(); i++) {
             boolean find = false;
-            for (int j = 0; j < account.getSubRedditList().size(); j++) {
-                find |= account.getSubRedditList().get(j).equals(subRedditUUID);
+            for (int j = 0; j < accountList.get(i).getSubRedditList().size(); j++) {
+                find |=  accountList.get(i).getSubRedditList().get(j).equals(subRedditUUID);
             }
             if (find) {
-                System.out.print(account.getUserName() + " - ");
+                System.out.print(accountList.get(i).getUserName() + " - ");
             }
         }
+        System.out.print("\n");
         Scanner in = new Scanner(System.in);
         int input;
         while (true) {
@@ -609,8 +646,11 @@ public class Reddit {
         while (true) {
             System.out.print("Enter name for search: ");
             input = in.next();
-            if (input == "cancel")
+            if (input.equals("cancel"))
                     break;
+            else if (input.length() <= 1 || input.charAt(1) != '/') {
+                System.out.println("Enter valid name.");
+            }
             else if (input.charAt(0) == 'u') {
                 boolean find = false;
                 Account account1 = accountList.get(0);
@@ -629,7 +669,7 @@ public class Reddit {
             }
             else {
                 boolean find = false;
-                SubReddit subReddit = subRedditList.get(0);
+                SubReddit subReddit = new SubReddit("", UUID.randomUUID());
                 for (int i = 0; i < subRedditList.size(); i++) {
                     if (subRedditList.get(i).getSubRedditName().equals(input)) {
                         find = true;
@@ -763,4 +803,27 @@ public class Reddit {
             System.out.println("access denied.");
         }
     }
+    public static void viewPostMenu(UUID accountUUID) {
+        Scanner in = new Scanner(System.in);
+        Account account = getAccountViaUUID(accountUUID);
+        int input = -1;
+        while (input < 0 || input > Post.getPostCounter()) {
+            System.out.println("enter postNumber: ");
+            input = in.nextInt();
+        }
+        if (input != 0) {
+            viewPost(getPostViaNumber(input).getPostUUID());
+        }
+    }
+    public static void viewLikes(UUID accountUUID) {
+        Account account = getAccountViaUUID(accountUUID);
+        for (int i = 0; i < account.PostUpvoted().size(); i++) {
+            viewPost2(account.PostUpvoted().get(i));
+        }
+        System.out.print("\n");
+        for (int i = 0; i < account.CommentUpvoted().size(); i++) {
+            viewComment(account.CommentUpvoted().get(i));
+        }
+    }
+
 }

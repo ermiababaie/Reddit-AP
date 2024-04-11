@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +21,8 @@ public class Post {
         this.title = title;
         this.body = body;
         postUUID = UUID.randomUUID();
+        Tags = new ArrayList<>();
+        commentList = new ArrayList<>();
         Vote = 0;
     }
 
