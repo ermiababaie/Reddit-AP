@@ -53,3 +53,7 @@ Reddit is an American social news aggregation, content rating, and forum social 
 
 
 -gmail: ermiababaiee@gmail.com 
+## Security :closed_lock_with_key:
+- Passwords saved by Double-Hash system
+
+
