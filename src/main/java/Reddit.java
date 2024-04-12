@@ -891,4 +891,78 @@ public class Reddit {
             }
         }
     }
+    public static void removeSubReddit(UUID accountUUID, UUID subRedditUUID) {
+        Account account = getAccountViaUUID(accountUUID);
+        account.removeSub(subRedditUUID);
+        for (int i = 0; i < accountList.size(); i++) {
+            if (accountList.get(i).getAccountUUID().equals(accountUUID)) {
+                accountList.set(i, account);
+                for (int j = 0; j < subRedditList.size(); j++) {
+                    if (subRedditList.get(j).getSubRedditUUID().equals(subRedditUUID)) {
+                        subRedditList.get(j).removeAdmin(accountUUID);
+                    }
+                }
+            }
+        }
+    }
+    public static void leftSubReddit(UUID accountUUID) {
+        Scanner in = new Scanner(System.in);
+        Account account = getAccountViaUUID(accountUUID);
+        System.out.println("enter subRedditName: ");
+        String input = in.next();
+        for (int i = 0; i < subRedditList.size(); i++) {
+            if (subRedditList.get(i).getSubRedditName().equals(input)) {
+                removeSubReddit(accountUUID, subRedditList.get(i).getSubRedditUUID());
+            }
+        }
+    }
+    public static void removeSubReddit2(UUID accountUUID) {
+        Scanner in = new Scanner(System.in);
+        System.out.print("enter subReddit: ");
+        String sub = in.next();
+        System.out.print("enter user: ");
+        String user = in.next();
+        SubReddit subReddit = subRedditList.get(0);
+        boolean find = false;
+        for (int i = 0; i < subRedditList.size(); i++) {
+            if (subRedditList.get(i).getSubRedditName().equals(sub) && subRedditList.get(i).getAdmin().equals(accountUUID)) {
+                find = true;
+                subReddit = subRedditList.get(i);
+            }
+        }
+        if (find) {
+            removeSubReddit(accountUUID, subReddit.getSubRedditUUID());
+        }
+        else {
+            System.out.println("access denied.");
+        }
+    }
+    public static void deleteSubReddit(UUID accountUUID) {
+        Scanner in = new Scanner(System.in);
+        Account account = getAccountViaUUID(accountUUID);
+        System.out.println("enter subRedditName: ");
+        String input = in.next();
+        boolean find = false;
+        for (int i = 0; i < subRedditList.size(); i++) {
+            if (subRedditList.get(i).getSubRedditName().equals(input)) {
+                if (subRedditList.get(i).getAdmin().equals(accountUUID)) {
+                    find = true;
+                    SubReddit subReddit = subRedditList.get(i);
+                    subRedditList.remove(subReddit);
+                    for (int j = 0; j < accountList.size(); j++) {
+                        accountList.get(j).removeSub(subReddit.getSubRedditUUID());
+                    }
+                    for (int j = 0; j < postList.size(); j++) {
+                        if (postList.get(j).getSubReddit().equals(subReddit.getSubRedditUUID())) {
+                            Post post = postList.get(j);
+                            deletePost(post.getPostUUID());
+                        }
+                    }
+                }
+            }
+        }
+        if (!find) {
+            System.out.println("access denied.");
+        }
+    }
 }
