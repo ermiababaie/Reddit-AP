@@ -164,4 +164,7 @@ public class Account {
     public void UnSavePost(UUID postUUID) {
         saves.remove(postUUID);
     }
+    public void removeSub(UUID subUUID) {
+        subRedditList.remove(subUUID);
+    }
 }
