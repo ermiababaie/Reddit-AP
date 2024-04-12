@@ -4,7 +4,7 @@
 
 
 # Reddit Project :speech_balloon:
-welcome to Reddit!
+welcome to Reddit! 🫡
 this application is programed by java for asking and answering questions.
 
 
