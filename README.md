@@ -2,6 +2,8 @@
 welcome to Reddit!
 this application is programed by java for asking and answering questions.
 
+<img width="1440" alt="Screenshot 2024-04-13 at 1 21 46 AM" src="https://github.com/ermiababaie/Reddit-AP/assets/160699260/39c232d4-633a-4fd4-8081-ae5aa6e5e62d">
+
 ## Prerequisites ✅
 
 ensure you have the following prerequisites installed on your workstation:
