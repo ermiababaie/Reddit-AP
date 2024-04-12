@@ -59,4 +59,7 @@ public class SubReddit {
     public void newAdmin(UUID uuid) {
         AdminsList.add(uuid);
     }
+    public void removeAdmin(UUID adminUUID) {
+        AdminsList.remove(adminUUID);
+    }
 }
