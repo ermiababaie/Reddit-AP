@@ -22,8 +22,8 @@ public class Main {
                     while (true) {
                         Reddit.timeLine(account.getAccountUUID());
                         inputNumber = 0;
-                       while (inputNumber <= 0 || inputNumber >= 14) {
-                           System.out.println("select one : 1)newPost 2)NewComment 3)newSubReddit 4)logOut 5)Search 6)editProfile 7)deletePost 8)newAdmin 9)voteComment 10)votePost 11)viewPostDetail 12)viewLikes 13)myProfile");
+                       while (inputNumber <= 0 || inputNumber >= 16) {
+                           System.out.println("select one : 1)newPost 2)NewComment 3)newSubReddit 4)logOut 5)Search 6)editProfile 7)deletePost 8)newAdmin 9)voteComment 10)votePost 11)viewPostDetail 12)viewLikes 13)myProfile 14)manageSaves 15)viewSaves");
                            inputNumber = in.nextInt();
                        }
                        if (inputNumber == 1) {
@@ -65,7 +65,13 @@ public class Main {
                        else if (inputNumber == 13) {
                            Reddit.viewProfile(account.getAccountUUID());
                        }
-                     }
+                       else if (inputNumber == 14) {
+                           Reddit.saveAndUnSave(account.getAccountUUID());
+                       }
+                       else if (inputNumber == 15) {
+                           Reddit.viewSaves(account.getAccountUUID());
+                       }
+                    }
                 }
                 else {
                     System.out.println("Login faild");

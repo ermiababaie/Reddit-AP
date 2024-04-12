@@ -14,6 +14,7 @@ public class Account {
     private List<UUID> commentList;
     private HashMap<UUID,Integer> votes;
     private List<UUID> UpVOtes;
+    private List<UUID> saves;
 
     public  Account(String email, String passWord, String userName) {
         this.email = email;
@@ -25,6 +26,7 @@ public class Account {
         this.postList = new ArrayList<>();
         votes = new HashMap<UUID,Integer>();
         UpVOtes = new ArrayList<>();
+        saves = new ArrayList<>();
     }
     public boolean ValidPassWord(String passWord) {
         return Reddit.hash(passWord).equals(this.passWord);
@@ -147,5 +149,19 @@ public class Account {
 
     public String getPassWord() {
         return passWord;
+    }
+
+    public List<UUID> getUpVOtes() {
+        return UpVOtes;
+    }
+
+    public List<UUID> getSaves() {
+        return saves;
+    }
+    public void savePost(UUID postUUID) {
+        saves.add(postUUID);
+    }
+    public void UnSavePost(UUID postUUID) {
+        saves.remove(postUUID);
     }
 }

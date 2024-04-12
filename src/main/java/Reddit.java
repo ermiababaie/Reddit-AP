@@ -825,5 +825,70 @@ public class Reddit {
             viewComment(account.CommentUpvoted().get(i));
         }
     }
-
+    public static void viewSaves(UUID accountUUID) {
+        Account account = getAccountViaUUID(accountUUID);
+        List<UUID> saves = account.getSaves();
+        for (int i = 0; i < saves.size(); i++) {
+            viewPost2(saves.get(i));
+        }
+    }
+    public static void saveAndUnSave(UUID accountUUID) {
+        Scanner in = new Scanner(System.in);
+        Account account = getAccountViaUUID(accountUUID);
+        List<UUID> saves = account.getSaves();
+        int input = -1;
+        while (input < 0 || input > 2) {
+            System.out.print("select one: 1)save 2)unsave: ");
+            input = in.nextInt();
+        }
+        if (input == 1) {
+            System.out.println("enter postNumber: ");
+            input = in.nextInt();
+            if (input > Post.getPostCounter() || input < 1) {
+                System.out.println("access denied.");
+            }
+            else if (input != 0) {
+                Post post = getPostViaNumber(input);
+                boolean find = false;
+                for (int i = 0; i < saves.size(); i++) {
+                    if (saves.get(i).equals(post.getPostUUID())) {
+                        find = true;
+                    }
+                }
+                if (find) {
+                    System.out.println("this post already exist in save list.");
+                }
+                else {
+                    account.savePost(post.getPostUUID());
+                }
+            }
+        }
+        else {
+            System.out.println("enter postNumber: ");
+            input = in.nextInt();
+            if (input > Post.getPostCounter() || input < 1) {
+                System.out.println("access denied.");
+            }
+            else if (input != 0) {
+                Post post = getPostViaNumber(input);
+                boolean find = false;
+                for (int i = 0; i < saves.size(); i++) {
+                    if (saves.get(i).equals(post.getPostUUID())) {
+                        find = true;
+                    }
+                }
+                if (!find) {
+                    System.out.println("this post already not exist in save list.");
+                }
+                else {
+                    account.UnSavePost(post.getPostUUID());
+                }
+            }
+        }
+        for (int i = 0; i < accountList.size(); i++) {
+            if (accountList.get(i).getAccountUUID().equals(accountUUID)) {
+                accountList.set(i, account);
+            }
+        }
+    }
 }
