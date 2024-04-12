@@ -1,8 +1,7 @@
-<img width="1440" alt="Screenshot 2024-04-12 at 11 46 21 PM" src="https://github.com/ermiababaie/Reddit-AP/assets/160699260/b056e994-8288-425a-84b4-913b891dcae1"><img width="1440" alt="Screenshot 2024-04-12 at 11 45 02 PM" src="https://github.com/ermiababaie/Reddit-AP/assets/160699260/dc411d75-84c7-49a5-a02b-8d5ddf5f50b3"><img width="1440" alt="Screenshot 2024-04-12 at 11 42 32 PM" src="https://github.com/ermiababaie/Reddit-AP/assets/160699260/fddd62b7-5073-44e0-9f99-30092b317590"># Reddit Project :speech_balloon:
+# Reddit Project :speech_balloon:
 welcome to Reddit!
 this application is programed by java for asking and answering questions.
 
-<img width="1440" alt="Screenshot 2024-04-13 at 1 21 46 AM" src="https://github.com/ermiababaie/Reddit-AP/assets/160699260/39c232d4-633a-4fd4-8081-ae5aa6e5e62d">
 
 ## Prerequisites ✅
 
