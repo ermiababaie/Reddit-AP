@@ -22,8 +22,8 @@ public class Main {
                     while (true) {
                         Reddit.timeLine(account.getAccountUUID());
                         inputNumber = 0;
-                       while (inputNumber <= 0 || inputNumber >= 16) {
-                           System.out.println("select one : 1)newPost 2)NewComment 3)newSubReddit 4)logOut 5)Search 6)editProfile 7)deletePost 8)newAdmin 9)voteComment 10)votePost 11)viewPostDetail 12)viewLikes 13)myProfile 14)manageSaves 15)viewSaves");
+                       while (inputNumber <= 0 || inputNumber >= 19) {
+                           System.out.println("select one : 1)newPost 2)NewComment 3)newSubReddit 4)logOut 5)Search 6)editProfile 7)deletePost 8)newAdmin \n9)voteComment 10)votePost 11)viewPostDetail 12)viewLikes 13)myProfile 14)manageSaves 15)viewSaves 16)leftSubReddit\n 17)removeUserFromSubReddit 18)deleteSubReddit");
                            inputNumber = in.nextInt();
                        }
                        if (inputNumber == 1) {
@@ -71,6 +71,17 @@ public class Main {
                        else if (inputNumber == 15) {
                            Reddit.viewSaves(account.getAccountUUID());
                        }
+                       else if (inputNumber == 16) {
+                           Reddit.leftSubReddit(account.getAccountUUID());
+                       }
+                       else if (inputNumber == 17) {
+                           Reddit.removeSubReddit2(account.getAccountUUID());
+                       }
+                       else if (inputNumber == 18) {
+                           Reddit.deleteSubReddit(account.getAccountUUID());
+                       }
+
+
                     }
                 }
                 else {
