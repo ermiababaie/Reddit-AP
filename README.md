@@ -19,7 +19,10 @@ you can create new post, add comments, see profiles, search subReddits and users
 Reddit is an American social news aggregation, content rating, and forum social network. Registered users (commonly referred to as "Redditors") submit content to the site such as links, text posts, which are then voted up or down by other members. Posts are organized by subject into user-created boards called "communities" or "subreddits".
 
 ## Usage :mechanical_arm:
-
+First, create an account with a valid email and username
+Then log in
+To use the program, it is enough to see and enter the desired order number from the menu for each task
+At any stage, in case of regret, just enter the number zero or the word cancel
 
 
 ## Credits :link:
